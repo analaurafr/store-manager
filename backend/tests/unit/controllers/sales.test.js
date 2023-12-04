@@ -60,6 +60,4 @@ describe('Testa o controller: SALES CONTROLLER:', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith(salesIdServiceNotFoundMock.data);
   });
-
-  // Adicione mais testes para atender aos requisitos de cobertura
 });
