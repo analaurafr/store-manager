@@ -15,7 +15,31 @@ const getSalesById = async (req, res) => {
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
+const registerSale = async (req, res) => {
+  const dataList = req.body;
+  const { status, data } = await service.registerSale(dataList);
+  return res.status(mapStatusHTTP(status)).json(data);
+};
+
+const dltSale = async (req, res) => {
+  const { id } = req.params;
+  const { status, data } = await service.dltSale(id);
+  return res.status(mapStatusHTTP(status)).json(data);
+};
+
+const upSale = async (req, res) => {
+  const { saleId, productId } = req.params;
+  const { quantity } = req.body;
+
+  const { status, data } = await service.upSale(saleId, productId, quantity);
+
+  return res.status(mapStatusHTTP(status)).json(data);
+};
+
 module.exports = {
   getAllSales,
   getSalesById,
+  registerSale,
+  dltSale,
+  upSale,
 };

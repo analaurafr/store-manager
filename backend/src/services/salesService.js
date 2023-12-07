@@ -14,7 +14,32 @@ const getSalesById = async (id) => {
   return { status: 'SUCCESSFUL', data: sale };
 };
 
+const registerSale = async (data) => {
+  const insertId = await model.registerSale(data);
+  const newData = {
+    id: insertId,
+    itemsSold: data.map((item) => ({
+      productId: item.productId,
+      quantity: item.quantity,
+    })),
+  };
+  return { status: 'CREATED', data: newData };
+};
+
+const dltSale = async (id) => {
+  await model.dltSale(id);
+  return { status: 'DELETED' };
+};
+
+const upSale = async (saleId, productId, quantity) => {
+  const updatedSale = await model.upSale(saleId, productId, quantity);
+  return { status: 'SUCCESSFUL', data: updatedSale };
+};
+
 module.exports = {
   getAllSales,
   getSalesById,
+  registerSale,
+  dltSale,
+  upSale,
 };

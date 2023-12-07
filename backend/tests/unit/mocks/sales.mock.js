@@ -13,7 +13,7 @@ const salesMock = [
   },
 ];
 
-const productsIdSales = [
+const productsIdSalesMock = [
   {
     productId: 1,
     quantity: 5,
@@ -40,6 +40,6 @@ const soldsMock = {
 
 module.exports = {
   salesMock,
-  productsIdSales,
+  productsIdSalesMock,
   soldsMock,
 };
