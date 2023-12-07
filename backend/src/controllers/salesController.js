@@ -1,19 +1,21 @@
-const salesService = require('../services/salesService');
+const service = require('../services/salesService');
 const mapStatusHTTP = require('../utils/httpMap');
 
-const salesAll = async (_req, res) => {
-  const { status, data } = await salesService.getSalesAll();
+const getAllSales = async (_req, res) => {
+  const { status, data } = await service.getAllSales();
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
-const salesById = async (req, res) => {
+const getSalesById = async (req, res) => {
   const { id } = req.params;
-  const { status, data } = await salesService.getSalesById(id);
-  if (status !== 'SUCCESSFUL') return res.status(mapStatusHTTP(status)).json(data);
+  const { status, data } = await service.getSalesById(id);
+  if (status === 'NOT_FOUND') {
+    return res.status(mapStatusHTTP(status)).json({ message: data.message });
+  }
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
 module.exports = {
-  salesAll,
-  salesById,
+  getAllSales,
+  getSalesById,
 };
