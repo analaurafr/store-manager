@@ -10,4 +10,6 @@ const productsCheck = (req, res, next) => {
   next();
 };
 
-module.exports = productsCheck;
+module.exports = {
+  productsCheck,
+};

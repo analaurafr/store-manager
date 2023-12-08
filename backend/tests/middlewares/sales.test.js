@@ -1,7 +1,7 @@
 const chai = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
-const salesMiddleware = require('../../../src/middlewares/salesMiddlewares');
+const salesMiddleware = require('../../src/middlewares/salesMiddlewares');
 
 const { expect } = chai;
 chai.use(sinonChai);
