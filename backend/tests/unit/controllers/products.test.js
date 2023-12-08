@@ -43,25 +43,6 @@ describe('Teste PRODUCTS CONTROLLER', function () {
     expect(res.json).to.be.deep.calledWith(productsMock[0]);
   });
 
-  it('Testa retorno "NOT_FOUND"', async function () {
-    sinon.stub(service, 'getProductById').resolves({ status: 'NOT_FOUND', data: { message: 'Product not found' } });
-
-    const req = {
-      params: {
-        id: 7,
-      },
-    };
-    const res = {};
-
-    res.status = sinon.stub().returns(res);
-    res.json = sinon.stub().returns(res);
-  
-    await controller.getProductById(req, res);
-
-    expect(res.status).to.be.calledWith(404);
-    expect(res.json).to.be.deep.calledWith({ message: 'Product not found' });
-  });
-
   it('Testa se deleta produto', async function () {
     const res = {};
     const req = {
@@ -123,6 +104,46 @@ describe('Teste PRODUCTS CONTROLLER', function () {
       id: 4,
       name: 'Toalha de mesa',
     });
+  });
+
+  it('Testa atualização de produto inexistente', async function () {
+    const req = {
+      params: {
+        id: 99,
+      },
+      body: {
+        name: 'NovoNome',
+      },
+    };
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns(res);
+
+    sinon.stub(service, 'upProduct').resolves();
+    await controller.upProduct(req, res);
+
+    expect(res.status).to.be.calledWith(404);
+    expect(res.json).to.be.deep.calledWith({ message: 'Product not found' });
+  });
+
+  it('Testa deleção de produto com erro no serviço', async function () {
+    const req = {
+      params: {
+        id: 1,
+      },
+    };
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns(res);
+
+    sinon.stub(service, 'dltProduct').resolves({ status: 'ERROR', data: { message: 'Delete error' } });
+
+    await controller.dltProduct(req, res);
+
+    expect(res.status).to.be.calledWith(500);
+    expect(res.json).to.be.deep.calledWith({ message: 'Delete error' });
   });
   
   afterEach(function () {

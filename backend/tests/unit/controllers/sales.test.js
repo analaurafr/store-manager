@@ -61,7 +61,7 @@ describe('Testes SALES CONTROLLER', function () {
     expect(res.status).to.be.calledWith(404);
   });
 
-  it('should insert a sale', async function () {
+  it('Testa registro de venda', async function () {
     const res = {};
     const req = {
       body: { 
@@ -112,6 +112,28 @@ describe('Testes SALES CONTROLLER', function () {
     await controller.dltSale(req, res);
 
     expect(res.status).to.be.calledWith(404);
+  });
+
+  it('Deve atualizar a venda', async function () {
+    const req = {
+      params: {
+        saleId: 1,
+        productId: 1,
+      },
+      body: {
+        quantity: 10,
+      },
+    };
+    const res = {};
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns(res);
+
+    sinon.stub(service, 'upSale').resolves({ status: 'SUCCESSFUL', data: soldsMock });
+
+    await controller.upSale(req, res);
+
+    expect(res.status).to.be.calledWith(200);
+    expect(res.json).to.be.deep.calledWith(soldsMock);
   });
 
   afterEach(function () {
