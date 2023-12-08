@@ -2,6 +2,7 @@ const { Router } = require('express');
 const controller = require('../controllers/salesController');
 const { 
   salesCheck, 
+  saleCheck,
   salesQuantityCheck, 
   salesProductsCheck, 
   validateQuantitySale, 
@@ -16,7 +17,7 @@ salesRoutes.get('/', controller.getAllSales);
 
 salesRoutes.get('/:id', controller.getSalesById);
 
-salesRoutes.delete('/:id', salesCheck, controller.dltSale);
+salesRoutes.delete('/:id', saleCheck, controller.dltSale);
 
 salesRoutes.put(
   '/:saleId/products/:productId/quantity',
