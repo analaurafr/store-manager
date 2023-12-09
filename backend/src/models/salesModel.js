@@ -51,20 +51,30 @@ const dltSale = async (id) => {
 };
 
 const upSale = async (saleId, productId, quantity) => {
+  // Atualiza a quantidade no banco de dados
   await connection.execute(
-    'UPDATE sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ?', 
+    'UPDATE sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ?',
     [quantity, saleId, productId],
   );
-  
-  const date = new Date();
-  const updatedSale = {
-    date,
+
+  // Obtém os dados atualizados da venda após a atualização, incluindo a coluna date da tabela sales
+  const [updatedSale] = await connection.execute(
+    `SELECT s.date, sp.product_id, sp.quantity
+     FROM sales s
+     JOIN sales_products sp ON s.id = sp.sale_id
+     WHERE s.id = ? AND sp.product_id = ?`,
+    [saleId, productId],
+  );
+
+  // Formata os dados para retornar
+  const formattedSale = {
+    saleId: Number(saleId),
     productId: Number(productId),
-    quantity,
-    saleId: Number(productId),
+    quantity: Number(quantity),
+    date: updatedSale[0].date,
   };
-  
-  return updatedSale;
+
+  return formattedSale;
 };
 
 module.exports = {

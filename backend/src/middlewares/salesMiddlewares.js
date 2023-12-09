@@ -26,11 +26,11 @@ const salesCheck = (req, res, next) => {
 
 const salesQuantityCheck = (req, res, next) => {
   const sales = req.body;
-  let messageCheck;
+  let messageQttCheck;
 
   const check = sales.map((sale) => {
     if (sale.quantity <= 0) {
-      messageCheck = '"quantity" must be greater than or equal to 1';
+      messageQttCheck = '"quantity" must be greater than or equal to 1';
       return false;
     }
 
@@ -38,7 +38,7 @@ const salesQuantityCheck = (req, res, next) => {
   });
 
   if (check.includes(false)) {
-    return res.status(422).json({ message: messageCheck });
+    return res.status(422).json({ message: messageQttCheck });
   }
 
   next();
